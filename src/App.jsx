@@ -1,8 +1,9 @@
+import { useContext } from 'react';
 import AdminDashboard from './components/AdminDashboard';
-export default function App(){
-  return(
-    <> 
-    <AdminDashboard />
-    </>
-    );
+import Login from './components/Login';
+import LoginContext from './context/LoginContext';
+
+export default function App() {
+  const { logger } = useContext(LoginContext);
+  return logger ? <AdminDashboard /> : <Login />;
 }

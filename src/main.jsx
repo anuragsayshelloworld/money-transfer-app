@@ -1,11 +1,22 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.jsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import LoginContext from './context/LoginContext';
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+function MainProvider() {
+  const [logger, setLogger] = useState('');
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+  return (
+    <LoginContext.Provider value={{ logger, setLogger }}>
+      <App />
+    </LoginContext.Provider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <MainProvider />
+  </React.StrictMode>
+);
