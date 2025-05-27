@@ -1,9 +1,46 @@
-import { useContext } from 'react';
-import AdminDashboard from './components/AdminDashboard';
-import Login from './components/Login';
-import LoginContext from './context/LoginContext';
+import { useContext, useEffect, useState } from "react";
+import AdminDashboard from "./components/AdminDashboard";
+import Login from "./components/Login";
+import LoginContext from "./context/LoginContext";
+import CustomerDashboard from "./components/Customer";
 
 export default function App() {
-  const { logger } = useContext(LoginContext);
-  return logger ? <AdminDashboard /> : <Login />;
+  const { logger, setLogger } = useContext(LoginContext);
+  const [role, setRole] = useState(0);
+  
+  
+  useEffect(() => {
+  const savedUser =
+    JSON.parse(localStorage.getItem("remembrance")) ||
+    JSON.parse(sessionStorage.getItem("remembrance")) ||
+    null;
+
+    if (savedUser !== null){
+  console.log(savedUser); // number nai aayi raheko chha. not string!
+  setLogger(savedUser);
+
+  const userDetails = JSON.parse(localStorage.getItem("userdetails")); 
+  const requiredUser = userDetails?.find(
+    (user) => user.phonenumber === savedUser
+  );
+
+  console.log(requiredUser?.phonenumber); // ✅ once again number nai aayi raheko chha!
+
+  setRole(requiredUser.role);
+}
+  
+}, [logger]);
+
+if(logger !== null){
+  if(role===1){
+    return <AdminDashboard/>
+  }
+  else{
+    return <CustomerDashboard/>
+  }
+}
+else{
+  return <Login/>
+}
+
 }

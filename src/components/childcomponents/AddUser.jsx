@@ -105,6 +105,7 @@ export default function AddUser({ editIndex, setEditIndex }) {
       balance,
       address,
       pin,
+      role: 1
     };
 
     temporaryArray.push(temporaryUserObject);

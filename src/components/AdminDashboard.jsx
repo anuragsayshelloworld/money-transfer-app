@@ -14,12 +14,18 @@ export default function AdminDashboard() {
     setUsers(usersLS);
   }, []);
 
+  const handleLogout = () =>{
+    localStorage.removeItem("remembrance");
+    sessionStorage.removeItem("remembrance");
+    setLogger(null);
+  }
+
   return (
     <UserContext.Provider value={{ users, setUsers }}>
       
       <div className="container mt-3">
         <div className="d-flex justify-content-end">
-          <button className="btn btn-danger" onClick={() => setLogger('')}>
+          <button className="btn btn-danger" onClick={handleLogout}>
             Logout
           </button>
         </div>
