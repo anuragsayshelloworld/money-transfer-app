@@ -219,9 +219,8 @@ setTimeout(() => setPinError(""), 5000);
                     />
                     {emailError && (
                       <div className="error-message">
-                        <span className="error-icon">!</span>
-                        {emailError}
-                      </div>
+                        <span className="error-icon"></span>
+                        <p style={{color:'red'}}>{emailError}</p>                      </div>
                     )}
                   </div>
 
@@ -240,9 +239,8 @@ setTimeout(() => setPinError(""), 5000);
                     />
                     {phoneError && (
                       <div className="error-message">
-                        <span className="error-icon">!</span>
-                        {phoneError}
-                      </div>
+                        <span className="error-icon"></span>
+                        <p style={{color:'red'}}>{phoneError}</p>                      </div>
                     )}
                   </div>
 
@@ -294,8 +292,8 @@ setTimeout(() => setPinError(""), 5000);
                     />
                     {pinError && (
                       <div className="error-message">
-                        <span className="error-icon">!</span>
-                        {pinError}
+                        <span className="error-icon"></span>
+                        <p style={{color:'red'}}>{pinError}</p>
                       </div>
                     )}
                   </div>

@@ -476,6 +476,7 @@ function TransactionHistory() {
   const [filterType, setFilterType] = useState('all');
   const [jargain, setJargain] = useState('');
   const [success, setSuccess] = useState('');
+  const [textareaerrorm, setTextareaError] = useState('');
 
   const loadTransactions = () => {
     const transferRecords = JSON.parse(localStorage.getItem("transferStatementRecord")) || [];
@@ -549,6 +550,13 @@ function TransactionHistory() {
   
     const helpdeskfx = (e) =>{
       e.preventDefault();
+      if(jargain === ''){
+        setTextareaError("You can not send an empty message.")
+        setTimeout(()=>{
+         setTextareaError('');
+        },5000);
+      }
+      else{
       let userDetails = JSON.parse(localStorage.getItem("userdetails")) || [];
       let requiredUser = userDetails.find((user)=>{
         return user.phonenumber === logger;
@@ -570,7 +578,7 @@ function TransactionHistory() {
         setSuccess('')
       },5000);
 
-    }
+    }}
 
 return (
   <div className="row">
@@ -627,7 +635,7 @@ return (
               <p className="text-muted small">Your transaction history will appear here</p>
             </div>
           ) : (
-            <div className="p-3" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            <div className="p-3" style={{ maxHeight: '210px', overflowY: 'auto' }}>
               {transactions.map((transaction) => (
                 <div 
                   key={transaction.id} 
@@ -674,19 +682,21 @@ return (
     {/* Adjacent Empty Div Named 'sth' */}
     <div className="col-md-6">
   <div className="card bg-white border shadow-sm p-4">
-    <h5 className="mb-2 fw-bold text-dark"> Contact desk</h5>
+    <h5 className="mb-3 fw-bold text-dark"> Contact desk</h5>
     <p style={{color:'green'}}>{success}</p>
+    <p style={{color:'red'}}>{textareaerrorm}</p>
     <form onSubmit={helpdeskfx}>
-      <div className="mb-2">
+      <div className="mb-3">
         <textarea
+          
           value={jargain}
           onChange={(e)=>setJargain(e.target.value)}
-          className="form-control"
+          className="form-control mb-3"
           rows="3"
           placeholder="Please send us your problem. Our response will be swift."
         ></textarea>
       </div>
-      <button type="submit" className="btn btn-primary w-100">
+      <button type="submit" className="btn btn-primary w-100 mb-3">
         Submit
       </button>
     </form>
