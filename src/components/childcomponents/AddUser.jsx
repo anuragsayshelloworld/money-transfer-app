@@ -105,7 +105,6 @@ export default function AddUser({ editIndex, setEditIndex }) {
       balance,
       address,
       pin,
-      role: 1
     };
 
     temporaryArray.push(temporaryUserObject);
@@ -167,109 +166,157 @@ setTimeout(() => setPinError(""), 5000);
   }
 
   return (
-    <div className="container mt-5">
-      <form
-        onSubmit={editIndex == null ? handleSubmit : updateUser}
-        className="p-4 border rounded shadow-sm bg-light"
-      >
-        <div className="mb-3">
-          <label className="form-label">Full Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={fullname}
-            onChange={e => setFullname(e.target.value)}
-            placeholder="Enter full name"
-            required
-          />
-        </div>
 
-        <div className="mb-3">
-          <label className="form-label">
-            Email <small><i style={{ color: 'gray' }}> (optional)</i></small>
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Enter email"
-          />
-          <i>
-            <small style={{ color: 'red' }}>{emailError}</small>
-          </i>
-        </div>
+  <>
+    <div className="modern-form-container">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-12">
+            <div className="card modern-card animate-fade-in">
+              <div className="card-body p-4">
+                {/* Header */}
+                <div className="text-center mb-4">
+                  <h1 className="header-title h2">
+                    <i className={`fas ${editIndex == null ? 'fa-user-plus' : 'fa-user-edit'} me-2`}></i>
+                    {editIndex == null ? 'Add New User' : 'Update User'}
+                  </h1>
+                  <p className="header-subtitle">
+                    {editIndex == null
+                      ? 'Fill in the details to create a new user account'
+                      : 'Update the user information below'}
+                  </p>
+                </div>
 
-        <div className="mb-3">
-          <label className="form-label">Phone Number</label>
-          <input
-            type="text"
-            className="form-control"
-            value={phonenumber}
-            onChange={e => setPhonenumber(e.target.value)}
-            placeholder="Enter phone number"
-            required
-          />
-          <i>
-            <small style={{ color: 'red' }}>{phoneError}</small>
-          </i>
-        </div>
+                {/* Form */}
+                <form onSubmit={editIndex == null ? handleSubmit : updateUser}>
+                  {/* Full Name */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-user me-2"></i>Full Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control-modern"
+                      value={fullname}
+                      onChange={e => setFullname(e.target.value)}
+                      placeholder="Enter full name"
+                      required
+                    />
+                  </div>
 
-        <div className="mb-3">
-          <label className="form-label">Balance</label>
-          <input
-            type="number"
-            className="form-control"
-            value={balance}
-            onChange={e => setBalance(e.target.value)}
-            placeholder="Enter balance"
-            required
-          />
-        </div>
+                  {/* Email */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-envelope me-2"></i>Email Address
+                      <small className="text-muted ms-1">(optional)</small>
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control form-control-modern"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="Enter email"
+                    />
+                    {emailError && (
+                      <div className="error-message">
+                        <span className="error-icon">!</span>
+                        {emailError}
+                      </div>
+                    )}
+                  </div>
 
-        <div className="mb-3">
-          <label className="form-label">Address</label>
-          <input
-            type="text"
-            className="form-control"
-            value={address}
-            onChange={e => setAddress(e.target.value)}
-            placeholder="Enter address"
-            required
-          />
-        </div>
+                  {/* Phone Number */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-phone me-2"></i>Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control-modern"
+                      value={phonenumber}
+                      onChange={e => setPhonenumber(e.target.value)}
+                      placeholder="Enter phone number"
+                      required
+                    />
+                    {phoneError && (
+                      <div className="error-message">
+                        <span className="error-icon">!</span>
+                        {phoneError}
+                      </div>
+                    )}
+                  </div>
 
-        <div className="mb-3">
-          <label className="form-label">4-digit Pin</label>
-          <input
-            type="number"
-            className="form-control"
-            value={pin}
-            onChange={e => {
-              const value = e.target.value;
-              if (value.length <= 4) setPin(value);
-            }}
-            placeholder="Enter 4-digit pin"
-            required
-          />
-          <i>
-            <small style={{ color: 'red' }}>{pinError}</small>
-          </i>
-        </div>
+                  {/* Balance */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-wallet me-2"></i>Balance
+                    </label>
+                    <div className="input-group input-group-modern">
+                      <span className="input-group-text">₹</span>
+                      <input
+                        type="number"
+                        className="form-control form-control-modern"
+                        value={balance}
+                        onChange={e => setBalance(e.target.value)}
+                        placeholder="0.00"
+                        required
+                      />
+                    </div>
+                  </div>
 
-        <button type="submit" className="btn btn-primary w-100 shadow">
-          {editIndex == null ? 'Save' : 'Update Info'}
-        </button>
-        <br />
-        <br />
-        <button
-          type="button"
-          onClick={clear}
-          className="btn w-100 shadow"
-        >
-          Clear
-        </button>
-      </form>
+                  {/* Address */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-map-marker-alt me-2"></i>Address
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control-modern"
+                      value={address}
+                      onChange={e => setAddress(e.target.value)}
+                      placeholder="Enter address"
+                      required
+                    />
+                  </div>
+
+                  {/* Pin */}
+                  <div className="mb-3">
+                    <label className="form-label form-label-modern">
+                      <i className="fas fa-key me-2"></i>4-Digit PIN
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control form-control-modern"
+                      value={pin}
+                      onChange={e => setPin(e.target.value)}
+                      placeholder="Enter 4-digit pin"
+                      required
+                    />
+                    {pinError && (
+                      <div className="error-message">
+                        <span className="error-icon">!</span>
+                        {pinError}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="d-flex justify-content-between">
+                    <button type="submit" className="btn btn-modern-primary">
+                      {editIndex == null ? 'Add User' : 'Update User'}
+                    </button>
+                    <button type="button" className="btn btn-modern-secondary" onClick={clear}>
+                      Clear
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  </>
+);
+
 }

@@ -16,7 +16,7 @@ export default function App() {
     null;
 
     if (savedUser !== null){
-  console.log(savedUser); // number nai aayi raheko chha. not string!
+
   setLogger(savedUser);
 
   const userDetails = JSON.parse(localStorage.getItem("userdetails")); 
@@ -24,7 +24,7 @@ export default function App() {
     (user) => user.phonenumber === savedUser
   );
 
-  console.log(requiredUser?.phonenumber); // ✅ once again number nai aayi raheko chha!
+
 
   setRole(requiredUser.role);
 }
