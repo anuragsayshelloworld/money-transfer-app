@@ -67,12 +67,14 @@ export default function Signup() {
             ).then(() => {
                 setModal(true);
                 setLoading(false);
+                
             }).catch((error) => {
                 console.error("EmailJS Error:", error);
                 setError("Failed to send verification email. Please try again.");
                 setLoading(false);
             });
         }, 1000);
+
     }
 
     function handlePinVerify() {
@@ -88,6 +90,18 @@ export default function Signup() {
             if (Number(pin) === Number(pinInput)) {
                 setSuccess(true);
                 setVerifying(false);
+            
+            const userdata = JSON.parse(localStorage.getItem("userdata")) || []; 
+
+            const newUser = {
+            fullname: formData.fullname,
+            password: formData.password,
+            email: formData.email,
+            role: 'user',
+            balance: 0
+           }
+           userdata.push(newUser);
+           localStorage.setItem('userdata', JSON.stringify(userdata));
                 
                 // Show success state for 2 seconds before navigating
                 setTimeout(() => {
