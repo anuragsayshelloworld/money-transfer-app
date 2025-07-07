@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import LoginContext from '../context/LoginContext';
 
 export default function Login() {
    const [email, setEmail] = useState('');
@@ -8,6 +10,7 @@ export default function Login() {
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(false);
    const Navigate = useNavigate();
+   const {login} = useContext(LoginContext);
 
    function handleSubmit(e){
     e.preventDefault();
@@ -16,6 +19,7 @@ export default function Login() {
     const doesUserExist = userdata.some((item)=>item.password === password && item.email === email);
     if(doesUserExist){
         setTimeout(()=>{
+        login(email);    
         Navigate('/customerdashboard', {replace: true})
         setLoading(false);
         },1000)
