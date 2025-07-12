@@ -1,19 +1,24 @@
-import React from "react"
-import Signup from './components/Signup';
-import Login from './components/Login';
-import CustomerDashboard from "./components/CustomerDashboard";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import useLocalstorage from "./hooks/useLocalstorage";
+import Login from './pages/Login';
+import CustomerDashboard from "./components/CustomerDahboard";
+import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import React from "react";
 
 export default function App(){
-    return <>
-           <BrowserRouter>
-           <Routes>
-            <Route path='/' element={<Login/>}/>
-            <Route path='/signup' element={<Signup/>}/>
-            <Route path='/customerdashboard' element={<CustomerDashboard/>}/> 
-           </Routes>
-           </BrowserRouter> 
-            
-           </>
+    
+    const isUseralreadyLoggedIn = useLocalstorage('MTAtoken', 'get', false, true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isUseralreadyLoggedIn){
+        navigate("/customerdashboard", {replace: true});
+        }
+    }, [isUseralreadyLoggedIn, navigate]);
+
+    return <Routes>
+            <Route path = '/' element = {<Login/>}/>
+            <Route path = '/customerdashboard' element = {<CustomerDashboard/>}/>
+           </Routes> 
 }
