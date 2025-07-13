@@ -18,7 +18,7 @@ export default function App(){
     }, [isUseralreadyLoggedIn, navigate]);
 
     return <Routes>
-            <Route path = '/' element = {<Login/>}/>
+            <Route path = '/' element = {<Login  />}/>
             <Route path = '/customerdashboard' element = {<CustomerDashboard/>}/>
            </Routes> 
 }

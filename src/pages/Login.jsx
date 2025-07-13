@@ -1,17 +1,53 @@
 import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from '../../firebase.js'; 
+
 
 export default function Login() {
-    console.log("login rendered!");
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log('Login Success:', tokenResponse);
-      // Fetch user info or pass token to backend here
-    },
-    onError: (error) => {
-      console.error('Login Failed:', error);
+
+
+const login = useGoogleLogin({
+  onSuccess: async (tokenResponse) => {
+    try {
+      const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
+      });
+
+      const userData = await res.json();
+      console.log(userData);
+      {/*checkpoint*/}
+      const requiredUserData = {
+        email: userData.email,
+        name: userData.name,
+        picture: userData.picture,
+        balance: 0,
+        role: 0
+      };
+
+      // Check if user exists in Firestore
+      const userRef = doc(db, "users", userData.email); // using email as ID
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        console.log("User already exists:", userSnap.data());
+        
+      } else {
+        await setDoc(userRef, requiredUserData);
+        console.log("New user added to Firestore:", requiredUserData);
+      }
+
+    } catch (err) {
+      console.error('Failed to fetch user info or access Firestore:', err);
     }
-  });
+  },
+  onError: (error) => {
+    console.error('Login Failed:', error);
+  }
+});
+
 
   return (
     <div className="h-screen w-screen flex justify-center items-center bg-gray-900 text-pretty">
