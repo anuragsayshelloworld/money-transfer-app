@@ -3,6 +3,8 @@ import UserInfo from "../components/userInfo";
 import Khutruke from "../components/Khutruke";
 import SearchComponent from "../components/Search";
 import FavnNot from "../components/FavnNot";
+import Actions from "../components/Actions";
+import Activities from "../components/Activities";
 
 export default function CustomerDashboardLayout(){
     const [isLoading, setIsloading] = useState(true);
@@ -24,7 +26,10 @@ export default function CustomerDashboardLayout(){
 
               <div className="flex flex-col w-1/2 h-full">
                   <div className="flex h-24 justify-center"><SearchComponent /></div>
-                  <div className="flex flex-1"></div>
+                  <div className="flex flex-col flex-1 justify-end gap-8">
+                       <div className="flex justify-center"><Activities/></div>
+                       <div><Actions/></div>
+                  </div>
               </div>
 
               <div className="flex w-1/4 h-full">
