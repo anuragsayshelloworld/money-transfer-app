@@ -7,11 +7,11 @@ export default function ProtectedRoute({ children }) {
 
   if (!token) {
     return <Navigate to="/" replace />;
-  }
+              }
 
   return children;
-}
+                                                     }
 
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
-};
+                           };
