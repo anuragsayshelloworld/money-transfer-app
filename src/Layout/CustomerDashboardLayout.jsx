@@ -43,7 +43,7 @@ export default function CustomerDashboardLayout(){
                   <div className="flex flex-col items-center gap-4">
                   <div className="w-16 h-16 border-4 border-t-transparent border-b-transparent border-l-white border-r-white rounded-full animate-spin"></div>
                   <p className="text-white text-lg tracking-wide animate-pulse">Loading the page...</p>
-                             </div> 
+                </div> 
               </div>
                )
                }

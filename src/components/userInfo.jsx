@@ -1,18 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { LogOut, User, Mail, Wallet } from "lucide-react";
 
 export default function UserInfo() {
     const data = localStorage.getItem("MTAToken");
     const parsedData = JSON.parse(data);
+    const [logoutPrompt, setLogoutPrompt] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleLogout = () => {
+        setLoading(true);
+        setTimeout(()=>{
+        setLoading(false);    
         localStorage.removeItem("MTAToken");
-        // I will add the redirect logic later
-        window.location.href = "/";
+        window.location.href = "/"; 
+        },3000)
+        
     };
 
     return (
         <div className="h-full flex flex-col overflow-hidden px-4">
+
+       {/*yeslai pachhi chhutai component banauchhu*/}
+{(logoutPrompt || loading) && (
+  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center">
+    {loading ? (
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-16 h-16 border-4 border-t-transparent border-b-transparent border-l-white border-r-white rounded-full animate-spin"></div>
+        <p className="text-white text-lg tracking-wide animate-pulse">Logging out...</p>
+      </div>
+    ) : (
+      <div className="bg-gray-800/80 text-white p-6 rounded-xl shadow-2xl w-[300px] text-center space-y-4 z-50 border border-gray-600 backdrop-blur-md">
+        <p className="text-lg font-semibold">Are you sure you want to logout?</p>
+        <div className="flex justify-center gap-4">
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+            onClick={handleLogout}
+          >
+            Yes
+          </button>
+          <button
+            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition"
+            onClick={() => setLogoutPrompt(false)}
+          >
+            No
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
+
+            
             {/* Header */}
             <div className="px-3 py-2 border-b border-gray-600">
                 <h2 className="text-gray-200 text-xs font-semibold uppercase tracking-wider">
@@ -57,7 +96,7 @@ export default function UserInfo() {
                     </button>
                     
                     <button 
-                        onClick={handleLogout}
+                        onClick={()=>setLogoutPrompt(true)}
                         className="w-full bg-red-800 hover:bg-red-700 text-white py-1.5 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5 text-xs"
                     >
                         <LogOut className="w-3 h-3" />
