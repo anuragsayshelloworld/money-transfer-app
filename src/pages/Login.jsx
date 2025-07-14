@@ -2,11 +2,12 @@ import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../firebase.js'; 
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
 
-
+const navigate = useNavigate();
 const login = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
     try {
@@ -27,19 +28,24 @@ const login = useGoogleLogin({
         role: 0
       };
 
-      // Check if user exists in Firestore
-      const userRef = doc(db, "users", userData.email); // using email as ID
+    
+      const userRef = doc(db, "users", userData.email);
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
         console.log("User already exists:", userSnap.data());
+        localStorage.setItem("MTAToken", JSON.stringify(userSnap.data()));
+        navigate("/dashboard", {replace:true});
+
         
       } else {
         await setDoc(userRef, requiredUserData);
         console.log("New user added to Firestore:", requiredUserData);
+        localStorage.setItem("MTAToken", JSON.stringify(requiredUserData));
+        navigate("/dashboard", {replace:true});
       }
 
-    } catch (err) {
+    }  catch (err) {
       console.error('Failed to fetch user info or access Firestore:', err);
     }
   },
