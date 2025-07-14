@@ -12,7 +12,7 @@ export default function UserInfo() {
     };
 
     return (
-        <div className="h-full flex flex-col overflow-hidden">
+        <div className="h-full flex flex-col overflow-hidden px-4">
             {/* Header */}
             <div className="px-3 py-2 border-b border-gray-600">
                 <h2 className="text-gray-200 text-xs font-semibold uppercase tracking-wider">
@@ -58,7 +58,7 @@ export default function UserInfo() {
                     
                     <button 
                         onClick={handleLogout}
-                        className="w-full bg-red-600 hover:bg-red-500 text-white py-1.5 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5 text-xs"
+                        className="w-full bg-red-800 hover:bg-red-700 text-white py-1.5 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5 text-xs"
                     >
                         <LogOut className="w-3 h-3" />
                         <span>Logout</span>

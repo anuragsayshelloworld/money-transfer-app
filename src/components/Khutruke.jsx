@@ -7,9 +7,9 @@ export default function Khutruke() {
     const [goalAmount] = useState(5000.00);
 
     return (
-        <div className="h-full flex flex-col overflow-hidden">
+        <div className="h-full flex flex-col overflow-hidden px-4">
             {/* Header */}
-            <div className="px-3 py-2 border-b border-gray-600">
+            <div className="px-3 mt-2 py-2 border-b border-gray-600">
                 <h2 className="text-gray-200 text-xs font-semibold uppercase tracking-wider">
                     Khutruke (खुत्रुके)
                 </h2>
@@ -31,7 +31,7 @@ export default function Khutruke() {
                     <div className="flex flex-col items-center">
                         <div className="relative mb-2">
                             {/* Traditional Clay Khutruke representation */}
-                            <div className="w-12 h-12 bg-gradient-to-b from-red-400 to-red-600 rounded-full flex items-center justify-center border-2 border-red-500 shadow-lg">
+                            <div className="w-12 h-12 min-w-6 min-h-6 bg-gradient-to-b from-red-400 to-red-600 rounded-full flex items-center justify-center border-2 border-red-500 shadow-lg">
                                 <Coins className="w-6 h-6 text-yellow-200" />
                             </div>
                             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-yellow-500 rounded-full border-2 border-gray-800"></div>
@@ -71,7 +71,7 @@ export default function Khutruke() {
 
                 {/* Break Khutruke Section */}
                 <div className="mb-3 flex-shrink-0">
-                    <button className="w-full bg-orange-600 hover:bg-orange-500 text-white py-1.5 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5 text-xs">
+                    <button className="w-full bg-orange-800 hover:bg-orange-7   00 text-white py-1.5 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5 text-xs">
                         <span>Break Khutruke</span>
                     </button>
                     <p className="text-gray-400 text-xs mt-1 text-center">Get all Rs. {khutrukeAmount.toFixed(2)}</p>

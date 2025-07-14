@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import UserInfo from "../components/userInfo";
 import Khutruke from "../components/Khutruke";
+import SearchComponent from "../components/Search";
+import FavnNot from "../components/FavnNot";
 
 export default function CustomerDashboardLayout(){
     const [isLoading, setIsloading] = useState(true);
@@ -15,19 +17,18 @@ export default function CustomerDashboardLayout(){
              {!isLoading ? 
               (
               <>
-              <div className="flex flex-col h-full w-1/4 gap-6 shadow-md border-r border-gray-600">
+              <div className="flex flex-col h-full w-1/4 gap-4 shadow-md border-r border-gray-600">
                   <div className="h-1/2"><Khutruke/></div>
                   <div className="h-1/2"><UserInfo/></div>
               </div>
 
               <div className="flex flex-col w-1/2 h-full">
-                  <div className="flex h-24">{/*Here will be search*/}</div>
-                  <div className="flex flex-1">{/*Main Content*/}</div>
+                  <div className="flex h-24 justify-center"><SearchComponent /></div>
+                  <div className="flex flex-1"></div>
               </div>
 
-              <div className="flex flex-col w-1/4 h-full">
-                  <div className="flex">{/*here will be heropage*/}</div>
-                  <div className="flex flex-1">{/*here will be Menu*/}</div> 
+              <div className="flex w-1/4 h-full">
+                  <div className="flex"><FavnNot/></div>
               </div>
               </>
                ) 
