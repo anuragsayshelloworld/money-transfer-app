@@ -8,6 +8,6 @@ import React from "react";
 export default function App() {
   return <Routes>
           <Route path="/" element={<PublicRoute> <Login /> </PublicRoute>} />
-          <Route path="/dashboard" element={ <ProtectedRoute> <CustomerDashboard/> </ProtectedRoute> } />
+          <Route path="/dashboard/*" element={ <ProtectedRoute> <CustomerDashboard/> </ProtectedRoute> } />
          </Routes>
                               }
