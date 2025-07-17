@@ -11,7 +11,7 @@ export default function Actions() {
             label: 'Send Money',
             color: 'text-emerald-400',
             hoverColor: 'hover:text-emerald-300',
-            navto: 'Sendmoney'
+            navto: '/dashboard/Sendmoney'
         },
         {
             id: 'request',
@@ -19,7 +19,7 @@ export default function Actions() {
             label: 'Request Money',
             color: 'text-blue-400',
             hoverColor: 'hover:text-blue-300',
-            navto: 'RequestMoney'
+            navto: '/dashboard/RequestMoney'
         },
         {
             id: 'topup',
@@ -27,7 +27,7 @@ export default function Actions() {
             label: 'Top up',
             color: 'text-purple-400',
             hoverColor: 'hover:text-purple-300',
-            navto: 'Topup'
+            navto: '/dashboard/Topup'
         },
         {
             id: 'history',
@@ -44,7 +44,7 @@ export default function Actions() {
             label: 'Support',
             color: 'text-cyan-400',
             hoverColor: 'hover:text-cyan-300',
-            navto: 'support'
+            navto: '/dashboard/support'
         }
     ];
 

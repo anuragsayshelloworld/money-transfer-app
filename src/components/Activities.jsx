@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowUpRight, ArrowDownLeft, CreditCard, Smartphone, User, Building2 } from "lucide-react";
 
 export default function Activities() {
+    const [loading, setLoading] = useState(true);
+    useEffect(()=>{
+        setTimeout(()=>{
+          setLoading(false);  
+        },3000)
+    },[])
     const activities = [
         {
             id: 1,
@@ -64,6 +70,21 @@ export default function Activities() {
             bgColor: 'bg-orange-400/10'
         }
     ];
+   
+if (loading) {
+    return (
+      <div className="flex flex-col mb-48 items-center justify-center h-full w-full text-white gap-6">
+        <div className="relative">
+          <div className="w-16 h-16 border-4 border-t-transparent border-emerald-400 rounded-full animate-spin"></div>
+          <div className="absolute inset-0 w-16 h-16 border-4 border-t-transparent border-emerald-600 rounded-full animate-spin animate-reverse" style={{ animationDelay: '0.5s' }}></div>
+        </div>
+        <div className="text-center">
+          <p className="text-xl font-medium mb-2">Loading activities</p>
+          <p className="text-gray-400 text-sm">Checking for new transaction</p>
+        </div>
+      </div>
+    );
+  }
 
     return (
         <div className="w-[80%] px-4 h-[380px] overflow-y-scroll scrollbar-hide border-r border-gray-600">
