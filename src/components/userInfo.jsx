@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { LogOut, User, Mail, Wallet } from "lucide-react";
+import AuthContext from "../context/LoginContext";
 
 export default function UserInfo() {
-    const data = localStorage.getItem("MTAToken");
-    const parsedData = JSON.parse(data);
+  const { user } = useContext(AuthContext);
+    const parsedData = user;
     const [logoutPrompt, setLogoutPrompt] = useState(false);
     const [loading, setLoading] = useState(false);
 

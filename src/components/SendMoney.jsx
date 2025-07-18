@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Send, User, DollarSign, Shield, CheckCircle, ArrowRight } from "lucide-react";
+import {doc, getDoc, updateDoc} from 'firebase/firestore'
+import { db } from '../../firebase';
+import AuthContext from "../context/LoginContext";
 
 export default function SendMoney() {
+  const {setUser} = useContext(AuthContext)
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [recipient, setRecipient] = useState("");
@@ -13,10 +17,41 @@ export default function SendMoney() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const currentUser = JSON.parse(localStorage.getItem("MTAToken"));
+  if (currentUser.balance < Number(amount)) {
+    console.log("Insufficient funds");
+    return;
+  }
+
+  const docRef = doc(db, "users", recipient);
+  const docSnap = await getDoc(docRef);
+  const docCRef = doc(db, "users", currentUser.email);
+  const docCSnap = await getDoc(docCRef);
+
+  if (!docSnap.exists()) {
+    console.log("User doesn't exist!");
+    return;
+  }
+
+  const recipientData = docSnap.data();
+  const updatedRecipientData = {...recipientData, balance: recipientData.balance + Number(amount)};
+  const currentUserData = docCSnap.data();
+  const updatedCurr = {...currentUserData, balance: currentUserData.balance - Number(amount)};
+
+  try {
+  await updateDoc(docRef, { balance: updatedRecipientData.balance });
+  console.log("Recipient balance updated!");
+  await updateDoc(docCRef, {balance: updatedCurr.balance});
+  setUser(updatedCurr);
+  localStorage.setItem("MTAToken", JSON.stringify(updatedCurr));
+  console.log("Yeah!");
+} catch (error) {
+  console.error("Error updating recipient balance:", error);
+}
+
+};
 
   if (loading) {
     return (

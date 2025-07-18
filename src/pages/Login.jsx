@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../firebase.js'; 
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/LoginContext.jsx';
 
 
 export default function Login() {
+
+  const { setUser } = useContext(AuthContext);
 
 const navigate = useNavigate();
 const login = useGoogleLogin({
@@ -24,7 +27,7 @@ const login = useGoogleLogin({
         email: userData.email,
         name: userData.name,
         picture: userData.picture,
-        balance: 0,
+        balance: 50,
         role: 0
       };
 
@@ -35,6 +38,7 @@ const login = useGoogleLogin({
       if (userSnap.exists()) {
         console.log("User already exists:", userSnap.data());
         localStorage.setItem("MTAToken", JSON.stringify(userSnap.data()));
+        setUser(userSnap.data());
         navigate("/dashboard", {replace:true});
 
         
@@ -42,6 +46,7 @@ const login = useGoogleLogin({
         await setDoc(userRef, requiredUserData);
         console.log("New user added to Firestore:", requiredUserData);
         localStorage.setItem("MTAToken", JSON.stringify(requiredUserData));
+        setUser(requiredUserData);
         navigate("/dashboard", {replace:true});
       }
 
