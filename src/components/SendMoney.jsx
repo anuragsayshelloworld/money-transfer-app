@@ -3,6 +3,7 @@ import { Send, User, DollarSign, Shield, CheckCircle, ArrowRight } from "lucide-
 import {doc, getDoc, updateDoc} from 'firebase/firestore'
 import { db } from '../../firebase';
 import AuthContext from "../context/LoginContext";
+import Portal from "./Portal";
 
 export default function SendMoney() {
   const {setUser} = useContext(AuthContext)
@@ -10,6 +11,8 @@ export default function SendMoney() {
   const [amount, setAmount] = useState("");
   const [recipient, setRecipient] = useState("");
   const [focused, setFocused] = useState(null);
+  const [error, setError] = useState('');
+  const [sending, setSending] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -19,9 +22,13 @@ export default function SendMoney() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+  setSending(true);
   const currentUser = JSON.parse(localStorage.getItem("MTAToken"));
   if (currentUser.balance < Number(amount)) {
-    console.log("Insufficient funds");
+    setError('nobal');
+    setTimeout(()=>{
+      setError(''); 
+    },3000)
     return;
   }
 
@@ -31,7 +38,10 @@ export default function SendMoney() {
   const docCSnap = await getDoc(docCRef);
 
   if (!docSnap.exists()) {
-    console.log("User doesn't exist!");
+    setError('wrong');
+    setTimeout(()=>{
+      setError(''); 
+    },3000)
     return;
   }
 
@@ -42,15 +52,25 @@ export default function SendMoney() {
 
   try {
   await updateDoc(docRef, { balance: updatedRecipientData.balance });
-  console.log("Recipient balance updated!");
+  
+  setError('sent');
+    setTimeout(()=>{
+      setError('');
+      setAmount('');
+      setRecipient(''); 
+    },3000)
+
   await updateDoc(docCRef, {balance: updatedCurr.balance});
   setUser(updatedCurr);
   localStorage.setItem("MTAToken", JSON.stringify(updatedCurr));
-  console.log("Yeah!");
-} catch (error) {
-  console.error("Error updating recipient balance:", error);
+  
+} catch{
+  setError('err');
+    setTimeout(()=>{
+      setError(''); 
+    },3000)
 }
-
+setSending(false);
 };
 
   if (loading) {
@@ -70,6 +90,20 @@ export default function SendMoney() {
 
   return (
     <div className="w-full h-full flex items-center justify-center px-4 text-white">
+      {error === 'nobal' && (
+        <Portal>You do not have sufficient balance </Portal>
+      )}
+      {error === 'wrong' && (
+        <Portal>User does not exist. Please try again.</Portal>
+      )}
+      {error === 'sent' && (
+        <Portal>Balance successfully transfered.</Portal>
+      )}
+      {error === 'err' && (
+        <Portal>Error updating recipient information</Portal>
+      )}      
+         
+         
       <div className="bg-gray-800/60 backdrop-blur-sm border border-gray-700/30 p-6 rounded-2xl shadow-lg w-full max-w-sm relative overflow-hidden">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/3 to-blue-500/3 rounded-2xl"></div>
@@ -153,7 +187,7 @@ export default function SendMoney() {
               onClick={handleSubmit}
               className="w-full bg-gradient-to-r from-emerald-800 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-500/20 group cursor-pointer"
             >
-              <span className="text-sm">Send Money</span>
+              <span className="text-sm">{sending ? 'Processing...' : 'Send Money'}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </div>
 
